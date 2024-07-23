@@ -1092,7 +1092,7 @@ QString Entry::resolvePlaceholderRecursive(const QString& placeholder, int maxDe
         return totp();
     case PlaceholderType::CustomAttribute: {
         const QString key = placeholder.mid(3, placeholder.length() - 4); // {S:attr} => mid(3, len - 4)
-        return attributes()->hasKey(key) ? attributes()->value(key) : QString();
+        return attributes()->hasKey(key) ? resolveMultiplePlaceholdersRecursive(attributes()->value(key), maxDepth - 1) : QString();
     }
     case PlaceholderType::Reference:
         return resolveReferencePlaceholderRecursive(placeholder, maxDepth);
